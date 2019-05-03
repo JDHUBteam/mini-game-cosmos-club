@@ -1,0 +1,82 @@
+@layout('layouts.main')
+
+@section('title')
+- Sign up
+@endsection
+
+@section('home')
+<section class="banner-area relative">
+    <div class="container">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="about-content col-lg-12">
+                <h1 class="text-white">
+                    Join Us
+                </h1>
+                <p>Join us to create
+                    Awesome Things</p>
+                <div class="link-nav">
+                    <span class="box">
+                        <a href="/">Home </a>
+                        <i class="lnr lnr-arrow-right"></i>
+                        <a href="#">Sign Up</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rocket-img">
+        <img src="img/rocket.png" alt="">
+    </div>
+</section>
+@endsection
+
+@section('content')
+<section class="about-area section-gap pt-0 pb-0">
+    <div class="container">
+        <div class="section-top-border">
+            <div class="row">
+                <div class="col-lg-8 col-md-8">
+                    <h3 id="signup-form" class="mb-3">Join Us</h3>
+                    <form id="login-form" action="{{ route('UserController.create') }}" method="POST">
+                        {{ csrfField() }}
+                        <div class="mt-10">
+                            <input type="text" name="username" placeholder="username" onfocus="this.placeholder = ''"
+                                onblur="this.placeholder = 'First Name'" required class="single-input"
+                                value="{{ old('username', '') }}">
+                        </div>
+                        @if(hasErrorFor('username'))
+                        <span>
+                            {{ getErrorFor('username') }}
+                        </span>
+                        @endif
+                        <div class="mt-10">
+                            <input type="email" name="email" placeholder="Email" onfocus="this.placeholder = ''"
+                                onblur="this.placeholder = 'First Name'" required class="single-input"
+                                value="{{ old('email', '') }}">
+                        </div>
+                        @if(hasErrorFor('email'))
+                        <span>
+                            {{ getErrorFor('email') }}
+                        </span>
+                        @endif
+                        <div class="mt-10">
+                            <input type="password" name="password" placeholder="Password"
+                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" required
+                                class="single-input">
+                        </div>
+                        @if(hasErrorFor('password'))
+                        <span>
+                            {{ getErrorFor('password') }}
+                        </span>
+                        @endif
+                        <div class="mt-10">
+                            <button type="submit" class="genric-btn primary circle arrow">Join now <span class="lnr lnr-arrow-right"></span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@endsection
