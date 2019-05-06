@@ -25,3 +25,6 @@ Route.get('/logout', async ({ auth, response }) => {
     await auth.logout();
     return response.redirect('/');
 });
+Route.group(() => {
+    Route.get('/cards/show', 'MiniGame/CardController.show')
+}).prefix('mini-game')

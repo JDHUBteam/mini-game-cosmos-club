@@ -17,7 +17,7 @@ class UserController {
             await auth.attempt(email, password);
             return response.redirect('/');
         } catch (error) {
-            session.flash({loginError: 'These credentials do not work.'})
+            session.flash({loginError: 'Thông tin đăng nhập không chính xác.'})
             return response.redirect('/login');
         }
     }
