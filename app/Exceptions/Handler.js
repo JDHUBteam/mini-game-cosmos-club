@@ -23,9 +23,9 @@ class ExceptionHandler extends BaseExceptionHandler {
   // async handle (error, { request, response }) {
   //   response.status(error.status).send(error.message)
   // }
-    async handle(error, {request, response, view}){
-      if(error.message == 'E_ROUTE_NOT_FOUND') return view.render('exception.e404')
-    }
+    // async handle(error, {request, response, view}){
+    //   if(error.message == 'E_ROUTE_NOT_FOUND') return view.render('exception.e404')
+    // }
 
 
   /**
