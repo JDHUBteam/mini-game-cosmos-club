@@ -1,8 +1,10 @@
 'use strict'
 
+const Card = use('App/Models/Card')
+
 class CardController {
-    async show({view}){
-        return view.render('minigame.cards.index');
+    async show({view, params}){
+        return Card.find(params.id)
     }
 }
 

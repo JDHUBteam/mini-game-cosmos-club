@@ -4,3 +4,55 @@
 {{title}}
 @endsection
 
+@section('home')
+<section class="banner-area relative">
+    <div class="container">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="about-content col-lg-12">
+                <h1 class="text-white">
+                    Mini Game
+                </h1>
+                <p>Play With Me. Are you ready?</p>
+                <div class="link-nav">
+                    <span class="box">
+                        <a href="/">Home </a>
+                        <i class="lnr lnr-arrow-right"></i>
+                        <a href="#">Mini Game</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rocket-img">
+        <img src="/img/rocket.png" alt="">
+    </div>
+</section>
+@endsection
+
+
+@section('content')
+<div class="container">
+    <div class="row">
+        <div class="whole-grap">
+            <div class="section-top-border">
+                <div class="col-md-12">
+                    <h3 class="mb-20"> Mini Games</h3>
+                    <div class="row">
+                        <ul class="unordered-list">
+                            <li class="">Card Game
+                                <ul class="">
+                                    <ol class="ordered-list">
+                                        @each(card in cards)
+                                            <li><a href="/mini-game/cards/{{card.id}}">{{card.title}}</a></li>
+                                        @endeach
+                                    </ol>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
