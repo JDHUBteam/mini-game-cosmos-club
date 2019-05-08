@@ -9,7 +9,7 @@ class CardsSchema extends Schema {
       table.increments()
       table.string('title', 150).notNullable()
       table.text('decription')
-      table.text('content').notNullable()
+      table.longtext('content')
       table.timestamps()
     })
   }

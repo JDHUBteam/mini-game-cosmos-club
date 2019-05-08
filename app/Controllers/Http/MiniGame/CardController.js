@@ -4,7 +4,7 @@ const Card = use('App/Models/Card')
 
 class CardController {
     async show({view, params}){
-        return Card.find(params.id)
+        let data = JSON.parse(Card.find(params.id))
     }
 }
 
