@@ -16,6 +16,12 @@ for (let i = 1; i <= l; i++) {
   offset += CARD_PEN_OFFSET;
 }
 
+let _setCurrentIndex = 0;
+let _totalPoint = 0;
+let _timeRemaing = 15;
+let _setCurrentPoint = 5;
+
+
 setCardOffset();
 function setCardOffset() {
   CARD_ARRAY.forEach(function (item, index) {
@@ -34,6 +40,8 @@ window.addEventListener("keydown", function (e) {
   cardSwitching(e);
 });
 
+let countCard = 0;
+
 function cardSwitching(e) {
   let animationObject = {},
     previousSibling,
@@ -41,8 +49,8 @@ function cardSwitching(e) {
 
   /* return when you scroll during the animation of a card */
   if (scrolling === "up" || scrolling === "down" || isMoving) return;
-
-  if (e.keyCode !== 38 && e.keyCode !== 40 && e.keyCode !== undefined) return;
+  //e.keyCode !== 38 &&
+  if ( e.keyCode !== 40 && e.keyCode !== undefined) return;
 
   for (let index of CARD_ARRAY) {
     if (
@@ -78,6 +86,8 @@ function cardSwitching(e) {
           animationObject.style.transform = `translate(${
             offsetArray[COUNT_OF_CARDS]
             }px, ${offsetArray[COUNT_OF_CARDS]}px)`;
+            countCard++;
+            if(countCard % 10 == 0){ get_ten_cards(); return;};
           offsetSwitch(scrolling);
         } else if (scrolling === "up") {
           offsetSwitch(scrolling);
@@ -139,7 +149,7 @@ function get_ten_cards() {
       case 4: card_color_index = 'fifth'; break;
     }
     console.log(count % 5);
-    var barem = "<div class=\"card " + card_color_index + "\"><div class=\"row\"><div id=\"qImage\"><img src=\"" + img_src + "\" alt=\"\"></div><div id=\"dataMeta\"><p>Lession: <a href=\"" + lession_href + "\">" + title + "</a></p><p>Kanji: <b>" + kanji + "</b></p><p>Meaning: <b>" + meaning + "</b></p><p>True Answer: <b>" + true_answer + "</b></p></div></div></div>";
+    var barem = "<div class=\"card " + card_color_index + "\"><div class=\"row\"><div id=\"qImage\"><img src=\"" + img_src + "\" alt=\"\"></div><div id=\"dataMeta\"><p>Lession: <a class=\"lession_href\" href=\"" + lession_href + "\" hidden>" + title + "</a></p><p>Kanji: <b class=\"kanji\" hidden>" + kanji + "</b></p><p>Meaning: <b class=\"meaning\" hidden>" + meaning + "</b></p><p>True Answer: <b class=\"true_answer\" hidden>" + true_answer + "</b></p></div></div></div>";
     view_card = view_card.concat(barem);
     count++;
   }
@@ -164,4 +174,19 @@ function get_ten_cards() {
   // window.addEventListener("keydown", function (e) {
   //   cardSwitching(e);
   // });
+}
+
+function UpdateMetaData(){
+  $("#currentIndex").text(_setCurrentIndex.toString());
+  $("#point").text(_totalPoint.toString());
+  $("#timeRemaining").text(_timeRemaing.toString());
+  $("#currentPoint").text(_setCurrentPoint.toString());
+}
+
+
+function nextQuestion(){
+  var e = new Event("keydown");
+  e.keyCode = 40;
+  e.which = 40;
+  window.dispatchEvent(e);
 }

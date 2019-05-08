@@ -55,7 +55,7 @@
       float: left;
     }
 
-    img.resize{
+    img.resize {
       width: 80%;
       height: 80%;
       padding: 14 px;
@@ -111,11 +111,11 @@
     }
 
     .second {
-      background-color: #abdd5c;
+      background-color: #8cb648;
     }
 
     .third {
-      background-color: #f7803b;
+      background-color: #eb7c3c;
     }
 
     .fourth {
@@ -126,6 +126,10 @@
     .fifth {
       background-color: #b31c28;
     }
+    a{
+      color:antiquewhite;
+      font-weight: bold;
+    }
   </style>
 </head>
 
@@ -135,11 +139,11 @@
     <p>Câu <b id="currentIndex"></b> / 50</p>
     <p>Tổng điểm: <b id="point">250</b></p>
     <p>Thời gian còn lại cho câu hỏi: <b id="timeRemaining">15</b>s</p>
-    <p>Điểm còn lại cho câu hỏi: <b>5</b></p>
+    <p>Điểm còn lại cho câu hỏi: <b id="currentPoint">5</b></p>
     <p>Press key H for <b>Help</b> or N to <b>Next</b> question</p>
     <p>Description: {{description}}</p>
     <p hidden>Session id: <b id="session_id">{{session_id}}</b></p>
-    <p><button onclick="get_ten_cards()">Start</button></p>
+    <p><button class="btn btn-danger" onclick="get_ten_cards()" id="btnStart">Start</button> <button onclick="get_ten_cards()" class="btn btn-primary" id="btnNext">Next</button></p>
     <br>
   </div>
   <div id="cardd">
