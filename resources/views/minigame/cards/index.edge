@@ -6,7 +6,8 @@
   <meta http-equiv='X-UA-Compatible' content='IE=edge'>
   <title>Cards Game</title>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <style>
     * {
       margin: 0;
@@ -25,16 +26,16 @@
       background-color: #bbbbbb;
     }
 
-    
 
-    #cardd{
+
+    #cardd {
       width: 70%;
       height: 100%;
       float: right;
       margin-left: 1em;
     }
 
-    #board{
+    #board {
       width: 300%;
       max-width: 300px;
       height: 100%;
@@ -44,6 +45,21 @@
       border-radius: 8px;
       padding: 1em;
       font-size: 1.1em;
+    }
+
+    #qImage {
+      padding: 5px;
+      width: 334px;
+      height: 254px;
+      float: left;
+    }
+
+    #dataMeta {
+      width: 266px;
+      height: 300px;
+      text-align: left;
+      padding-left: 1em;
+      vertical-align: top;
     }
 
     .card {
@@ -73,7 +89,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      font-size: 2rem;
+      font-size: 1rem;
       font-family: sans-serif;
       color: #21252e;
       background-color: #ffa719;
@@ -106,32 +122,43 @@
 <body>
   <div id="board">
     <br>
-    <p>Câu 27 / 50</p>
-    <p>Tổng điểm: <b>250</b></p>
-    <p>Thời gian còn lại cho câu hỏi: <b>15</b>s</p>
+    <p>Câu <b id="currentIndex"></b> / 50</p>
+    <p>Tổng điểm: <b id="point">250</b></p>
+    <p>Thời gian còn lại cho câu hỏi: <b id="timeRemaining">15</b>s</p>
     <p>Press key H for <b>Help</b> or N to <b>Next</b> question</p>
+    <p>Description: {{description}}</p>
+    <p hidden>Session id: <b id="session_id">{{session_id}}</b></p>
     <br>
   </div>
   <div id="cardd">
-      <div class="card first">
-          <p>Scroll or press UP or DOWN</p>
-          <p>(does not work with touch yet)</p>
+    <div class="card first">
+      <div class="row">
+        <div id="qImage">
+          <img src="//data.minder.vn/Japanese/104000002/images/words/104001443.jpg" alt="">
         </div>
-        <div class="card second"></div>
-        <div class="card third"></div>
-        <div class="card fourth"></div>
-        <div class="card fifth"></div>
-        <div class="card first">
-          <p>Scroll or press UP or DOWN</p>
-          <p>(does not work with touch yet)</p>
+        <div id="dataMeta">
+          <p>Lession: <a href="https://minder.vn/lesson/104000045">18. しゅみは何ですか</a></p>
+          <p>Kanji: <b>弾きます</b></p>
+          <p>Meaning: <b>chơi</b></p>
+          <p>True Answer: <b>ひきます</b></p>
         </div>
-        <div class="card second"></div>
-        <div class="card third"></div>
-        <div class="card fourth"></div>
-        <div class="card fifth"></div>
+      </div>
+    </div>
+    <div class="card second"></div>
+    <div class="card third"></div>
+    <div class="card fourth"></div>
+    <div class="card fifth"></div>
+    <div class="card first">
+      <p>Scroll or press UP or DOWN</p>
+      <p>(does not work with touch yet)</p>
+    </div>
+    <div class="card second"></div>
+    <div class="card third"></div>
+    <div class="card fourth"></div>
+    <div class="card fifth"></div>
   </div>
 </body>
-
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
 <script src="/js/cards.js"></script>
 
 </html>

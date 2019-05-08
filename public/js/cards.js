@@ -1,4 +1,10 @@
 /*set own values*/
+var id = $('#session_id').text();
+//console.log(session_id);
+$.post('/mini-game/cards/'+id+'/get', {key: id}, function(result){
+	console.log(result);
+})
+
 const CARD_PEN_OFFSET = 10, //displacement of the cards
   CARD_SWITCH_RANGE = "130%";
 

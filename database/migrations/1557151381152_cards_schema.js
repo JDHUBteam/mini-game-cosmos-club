@@ -8,7 +8,7 @@ class CardsSchema extends Schema {
     this.create('cards', (table) => {
       table.increments()
       table.string('title', 150).notNullable()
-      table.text('decription')
+      table.text('description')
       table.longtext('content')
       table.timestamps()
     })

@@ -17,11 +17,11 @@ const Drive = use('Drive')
 
 class CardSeeder {
   static async run () {
-    var con = await Drive.get('1.txt', 'utf-8')
+    const con = await Drive.get('1.json', 'utf-8')
     await Database.table('cards').insert([
       {
         title: 'Mini Game Card - Session 2',
-        decription: 'Từ vựng 50 bài mina',
+        description: 'Từ vựng 50 bài mina',
         content: con
       }
     ])
