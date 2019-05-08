@@ -1,16 +1,10 @@
 /*set own values*/
-var id = $('#session_id').text();
-//console.log(session_id);
-$.post('/mini-game/cards/'+id+'/get', {key: id}, function(result){
-	console.log(result);
-})
-
 const CARD_PEN_OFFSET = 10, //displacement of the cards
   CARD_SWITCH_RANGE = "130%";
 
-const CARD_ARRAY = [...document.querySelectorAll('div[class*="card"]')];
+var CARD_ARRAY = [...document.querySelectorAll('div[class*="card"]')];
 /* Do not change this */
-const COUNT_OF_CARDS = CARD_ARRAY.length;
+var COUNT_OF_CARDS = CARD_ARRAY.length;
 let last_element = CARD_ARRAY[CARD_ARRAY.length - 1];
 let isMoving = false;
 
@@ -24,19 +18,19 @@ for (let i = 1; i <= l; i++) {
 
 setCardOffset();
 function setCardOffset() {
-  CARD_ARRAY.forEach(function(item, index) {
+  CARD_ARRAY.forEach(function (item, index) {
     item.style.zIndex = Math.abs(index - COUNT_OF_CARDS);
     item.style.transform = `translate(${offsetArray[index]}px, ${
       offsetArray[index]
-    }px)`;
+      }px)`;
   });
 }
 
 /******************************************************************/
-window.addEventListener("wheel", function(e) {
+window.addEventListener("wheel", function (e) {
   cardSwitching(e);
 });
-window.addEventListener("keydown", function(e) {
+window.addEventListener("keydown", function (e) {
   cardSwitching(e);
 });
 
@@ -78,12 +72,12 @@ function cardSwitching(e) {
   if (animationObject !== undefined) {
     animationObject.addEventListener(
       "transitionend",
-      function() {
+      function () {
         if (scrolling === "down") {
           animationObject.style.zIndex = 0;
           animationObject.style.transform = `translate(${
             offsetArray[COUNT_OF_CARDS]
-          }px, ${offsetArray[COUNT_OF_CARDS]}px)`;
+            }px, ${offsetArray[COUNT_OF_CARDS]}px)`;
           offsetSwitch(scrolling);
         } else if (scrolling === "up") {
           offsetSwitch(scrolling);
@@ -106,10 +100,68 @@ function offsetSwitch(scrolling) {
     let offsetIndex = Math.abs(parseInt(index.style.zIndex) - COUNT_OF_CARDS);
     index.style.transform = `translate(${offsetArray[offsetIndex]}px, ${
       offsetArray[offsetIndex]
-    }px)`;
+      }px)`;
 
     index.addEventListener("transitionend", () => (isMoving = false), {
       once: true
     });
   }
+}
+
+
+//=============================Custom code================================
+var id = $('#session_id').text();
+//console.log(session_id);
+var questions = [];
+$.post('/mini-game/cards/' + id + '/get', { key: id }, function (result) {
+  questions = result;
+})
+
+
+function get_ten_cards() {
+  var view_card = "";
+  var count = 0;
+  while ((questions.length != 0) && (count <= 9)) {
+    var question = questions.pop();
+    var card_color_index = 0;
+    let img_src = question['image-src'];
+    var lession_href = question["web-scraper-start-url"];
+    var title = question['name_lession'];
+    var kanji = question['kanji'];
+    var meaning = question['meaning'];
+    var true_answer = question['hiragana'];
+
+    switch (count % 5) {
+      case 0: card_color_index = 'first'; break;
+      case 1: card_color_index = 'second'; break;
+      case 2: card_color_index = 'third'; break;
+      case 3: card_color_index = 'fourth'; break;
+      case 4: card_color_index = 'fifth'; break;
+    }
+    console.log(count % 5);
+    var barem = "<div class=\"card " + card_color_index + "\"><div class=\"row\"><div id=\"qImage\"><img src=\"" + img_src + "\" alt=\"\"></div><div id=\"dataMeta\"><p>Lession: <a href=\"" + lession_href + "\">" + title + "</a></p><p>Kanji: <b>" + kanji + "</b></p><p>Meaning: <b>" + meaning + "</b></p><p>True Answer: <b>" + true_answer + "</b></p></div></div></div>";
+    view_card = view_card.concat(barem);
+    count++;
+  }
+  $('#cardd').empty();
+  $('#cardd').append(view_card);
+
+  CARD_ARRAY = [...document.querySelectorAll('div[class*="card"]')];
+  COUNT_OF_CARDS = CARD_ARRAY.length;
+  last_element = CARD_ARRAY[CARD_ARRAY.length - 1];
+  isMoving = false;
+  offsetArray = [],
+  offset = 0,
+  l = CARD_ARRAY.length;
+  for (let i = 1; i <= l; i++) {
+    offsetArray.push(offset);
+    offset += CARD_PEN_OFFSET;
+  }
+  setCardOffset();
+  // window.addEventListener("wheel", function (e) {
+  //   cardSwitching(e);
+  // });
+  // window.addEventListener("keydown", function (e) {
+  //   cardSwitching(e);
+  // });
 }

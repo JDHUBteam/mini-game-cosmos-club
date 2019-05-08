@@ -48,17 +48,26 @@
     }
 
     #qImage {
-      padding: 5px;
+      padding: 7px;
+      padding-left: 15px;
       width: 334px;
       height: 254px;
       float: left;
+    }
+
+    img.resize{
+      width: 80%;
+      height: 80%;
+      padding: 14 px;
+      position: relative;
     }
 
     #dataMeta {
       width: 266px;
       height: 300px;
       text-align: left;
-      padding-left: 1em;
+      padding-left: 2em;
+      padding-top: 1em;
       vertical-align: top;
     }
 
@@ -102,19 +111,20 @@
     }
 
     .second {
-      background-color: #e56660;
+      background-color: #abdd5c;
     }
 
     .third {
-      background-color: #b94a53;
+      background-color: #f7803b;
     }
 
     .fourth {
-      background-color: #4b345e;
+      background-color: #5e3680;
+      color: #dbdadb;
     }
 
     .fifth {
-      background-color: #724e94;
+      background-color: #b31c28;
     }
   </style>
 </head>
@@ -125,37 +135,14 @@
     <p>Câu <b id="currentIndex"></b> / 50</p>
     <p>Tổng điểm: <b id="point">250</b></p>
     <p>Thời gian còn lại cho câu hỏi: <b id="timeRemaining">15</b>s</p>
+    <p>Điểm còn lại cho câu hỏi: <b>5</b></p>
     <p>Press key H for <b>Help</b> or N to <b>Next</b> question</p>
     <p>Description: {{description}}</p>
     <p hidden>Session id: <b id="session_id">{{session_id}}</b></p>
+    <p><button onclick="get_ten_cards()">Start</button></p>
     <br>
   </div>
   <div id="cardd">
-    <div class="card first">
-      <div class="row">
-        <div id="qImage">
-          <img src="//data.minder.vn/Japanese/104000002/images/words/104001443.jpg" alt="">
-        </div>
-        <div id="dataMeta">
-          <p>Lession: <a href="https://minder.vn/lesson/104000045">18. しゅみは何ですか</a></p>
-          <p>Kanji: <b>弾きます</b></p>
-          <p>Meaning: <b>chơi</b></p>
-          <p>True Answer: <b>ひきます</b></p>
-        </div>
-      </div>
-    </div>
-    <div class="card second"></div>
-    <div class="card third"></div>
-    <div class="card fourth"></div>
-    <div class="card fifth"></div>
-    <div class="card first">
-      <p>Scroll or press UP or DOWN</p>
-      <p>(does not work with touch yet)</p>
-    </div>
-    <div class="card second"></div>
-    <div class="card third"></div>
-    <div class="card fourth"></div>
-    <div class="card fifth"></div>
   </div>
 </body>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
