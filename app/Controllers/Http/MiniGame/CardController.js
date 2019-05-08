@@ -8,7 +8,7 @@ class CardController {
         const data = await Card.find(params.id)
         var questions = []
         questions = JSON.parse(data.content)
-        shuffle(questions)
+        shuffle(questions)   
         return questions.slice(0, 50)
     }
 

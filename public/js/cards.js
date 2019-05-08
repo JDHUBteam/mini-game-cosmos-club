@@ -16,11 +16,11 @@ for (let i = 1; i <= l; i++) {
   offset += CARD_PEN_OFFSET;
 }
 
-let _setCurrentIndex = 0;
+let _setCurrentIndex = 1;
 let _totalPoint = 0;
-let _timeRemaing = 15;
+let _timeRemaing = 20;
 let _setCurrentPoint = 5;
-
+let _groupQuestions = [];
 
 setCardOffset();
 function setCardOffset() {
@@ -50,7 +50,7 @@ function cardSwitching(e) {
   /* return when you scroll during the animation of a card */
   if (scrolling === "up" || scrolling === "down" || isMoving) return;
   //e.keyCode !== 38 &&
-  if ( e.keyCode !== 40 && e.keyCode !== undefined) return;
+  if (e.keyCode !== 40 && e.keyCode !== undefined) return;
 
   for (let index of CARD_ARRAY) {
     if (
@@ -86,8 +86,8 @@ function cardSwitching(e) {
           animationObject.style.transform = `translate(${
             offsetArray[COUNT_OF_CARDS]
             }px, ${offsetArray[COUNT_OF_CARDS]}px)`;
-            countCard++;
-            if(countCard % 10 == 0){ get_ten_cards(); return;};
+          countCard++;
+          if (countCard % 10 == 0) { get_ten_cards(); return; };
           offsetSwitch(scrolling);
         } else if (scrolling === "up") {
           offsetSwitch(scrolling);
@@ -148,8 +148,8 @@ function get_ten_cards() {
       case 3: card_color_index = 'fourth'; break;
       case 4: card_color_index = 'fifth'; break;
     }
-    console.log(count % 5);
-    var barem = "<div class=\"card " + card_color_index + "\"><div class=\"row\"><div id=\"qImage\"><img src=\"" + img_src + "\" alt=\"\"></div><div id=\"dataMeta\"><p>Lession: <a class=\"lession_href\" href=\"" + lession_href + "\" hidden>" + title + "</a></p><p>Kanji: <b class=\"kanji\" hidden>" + kanji + "</b></p><p>Meaning: <b class=\"meaning\" hidden>" + meaning + "</b></p><p>True Answer: <b class=\"true_answer\" hidden>" + true_answer + "</b></p></div></div></div>";
+    //console.log(count % 5);
+    var barem = "<div class=\"card " + card_color_index + "\"><div class=\"row\"><div id=\"qImage\"><img src=\"" + img_src + "\" alt=\"\"></div><div id=\"dataMeta\"><p>Lession: <a class=\"lession_href\" href=\"" + lession_href + "\" style=\"display: none;\">" + title + "</a></p><p>Kanji: <b class=\"kanji\" style=\"display: none;\">" + kanji + "</b></p><p>Meaning: <b class=\"meaning\" style=\"display: none;\">" + meaning + "</b></p><p>True Answer: <b class=\"true_answer\" style=\"display: none;\">" + true_answer + "</b></p></div></div></div>";
     view_card = view_card.concat(barem);
     count++;
   }
@@ -161,8 +161,8 @@ function get_ten_cards() {
   last_element = CARD_ARRAY[CARD_ARRAY.length - 1];
   isMoving = false;
   offsetArray = [],
-  offset = 0,
-  l = CARD_ARRAY.length;
+    offset = 0,
+    l = CARD_ARRAY.length;
   for (let i = 1; i <= l; i++) {
     offsetArray.push(offset);
     offset += CARD_PEN_OFFSET;
@@ -176,17 +176,86 @@ function get_ten_cards() {
   // });
 }
 
-function UpdateMetaData(){
+function HindHelp() {
+  $(".lession_href").hide();
+  $(".kanji").hide();
+  $(".meaning").hide();
+  $(".true_answer").hide();
+}
+
+function UpdateMetaData() {
+  if(_setCurrentIndex > 50)
+  $("#currentIndex").text("50");
+  else
   $("#currentIndex").text(_setCurrentIndex.toString());
   $("#point").text(_totalPoint.toString());
   $("#timeRemaining").text(_timeRemaing.toString());
   $("#currentPoint").text(_setCurrentPoint.toString());
 }
+var help_level = 0;
+function nextHelp() {
+  /**
+   * 1 lession
+   * 2 kanji
+   * 3 meaning
+   * 4 answer
+   */
+  if(_setCurrentIndex > 50){
+    $('#cardd').empty();
+    $('#currentIndex').text("50");
+    return;
+  } 
+  switch (help_level) {
+    case 0: //>lesstion
+      _setCurrentPoint--;
+      $(".lession_href").show();
+      help_level++;
+      UpdateMetaData();
+      break;
+    case 1:
+      _setCurrentPoint -= 2;
+      $(".kanji").show();
+      help_level++;
+      UpdateMetaData();
+      break;
+    case 2:
+      _setCurrentPoint--;
+      $(".meaning").show();
+      help_level++;
+      UpdateMetaData();
+      break;
+    case 3:
+      _setCurrentPoint--;
+      $(".true_answer").show();
+       help_level++;
+      UpdateMetaData();
+      break;
+    case 4:
+      _setCurrentPoint = 0;
+      HindHelp();
+      help_level = 0;
+      if(_setCurrentIndex <= 50) nextQuestion();
+      _setCurrentIndex++;
+      _timeRemaing = 20;
+      _setCurrentPoint = 5;
+      // _totalPoint += _setCurrentPoint;
+      UpdateMetaData();
+      break;
+  }
+
+}
 
 
-function nextQuestion(){
+function nextQuestion() {
   var e = new Event("keydown");
   e.keyCode = 40;
   e.which = 40;
   window.dispatchEvent(e);
 }
+
+$(document).ready(function () {
+  $('body').keydown(function (e) {
+    if (e.which == 78) nextQuestion();
+    if (e.which == 72) nextHelp();
+  });
+})
