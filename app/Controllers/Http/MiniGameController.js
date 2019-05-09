@@ -10,6 +10,7 @@ class MiniGameController {
             cards: cards.toJSON()
         })
     }
+    
 }
 
 module.exports = MiniGameController

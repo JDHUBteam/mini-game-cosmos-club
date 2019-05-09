@@ -18,9 +18,10 @@ for (let i = 1; i <= l; i++) {
 
 let _setCurrentIndex = 1;
 let _totalPoint = 0;
-let _timeRemaing = 20;
+let _timeRemaing = 25;
 let _setCurrentPoint = 5;
 let _groupQuestions = [];
+let _usedHelp = [false, false, false, false];
 
 setCardOffset();
 function setCardOffset() {
@@ -183,11 +184,78 @@ function HindHelp() {
   $(".true_answer").hide();
 }
 
+var timeId = setInterval(startCountDownTimer, 1000);
+
+function checkVisible(element) {
+  return $(element).is(":visible");
+}
+
+
+function startCountDownTimer() {
+  switch (_timeRemaing) {
+    case 0:
+      UpdateMetaData();
+      clearTimeout(timeId);
+      HindHelp();
+      _timeRemaing = 25;
+      _setCurrentPoint = 5;
+      nextQuestion();
+      timeId = setInterval(startCountDownTimer, 1000);
+      _usedHelp = [false, false, false, false];
+      startCountDownTimer();
+      UpdateMetaData();
+      break;
+    case 20:
+      if (!checkVisible(".lession_href")) {
+        if (!_usedHelp[0]) {
+          _usedHelp[0] = true;
+          _setCurrentPoint--;
+        }
+        $(".lession_href").show();
+        UpdateMetaData();
+        break;
+      }
+    case 15:
+      if (!checkVisible(".kanji")) {
+        if (!_usedHelp[1]) {
+          _usedHelp[1] = true;
+          _setCurrentPoint -= 2;
+        }
+        $(".kanji").show();
+        UpdateMetaData();
+        break;
+      }
+    case 10:
+      if (!checkVisible(".meaning")) {
+        $(".meaning").show();
+        if (!_usedHelp[2]) {
+          _usedHelp = 2;
+          _setCurrentPoint--;
+        }
+        UpdateMetaData();
+        break;
+      }
+    case 5:
+      if (!checkVisible(".true_answer")) {
+        $(".true_answer").show();
+        _usedHelp[3] = true;
+        _setCurrentPoint = 0;
+        UpdateMetaData();
+        break;
+      }
+  }
+
+
+
+  if (_timeRemaing == 0) clearTimeout(timeId);
+  $("#timeRemaining").text(_timeRemaing--);
+}
+
 function UpdateMetaData() {
-  if(_setCurrentIndex > 50)
-  $("#currentIndex").text("50");
+  if (_setCurrentIndex > 50)
+    $("#currentIndex").text("50");
   else
-  $("#currentIndex").text(_setCurrentIndex.toString());
+    $("#currentIndex").text(_setCurrentIndex.toString());
   $("#point").text(_totalPoint.toString());
   $("#timeRemaining").text(_timeRemaing.toString());
   $("#currentPoint").text(_setCurrentPoint.toString());
@@ -200,44 +268,59 @@ function nextHelp() {
    * 3 meaning
    * 4 answer
    */
-  if(_setCurrentIndex > 50){
+  if (_setCurrentIndex > 50) {
+    let user_id = $("#user_id").text();
+    let session_id = $("#session_id").text();
+    var point = _totalPoint;
+    $.post("/mini-game/cards/"+session_id+"/finish", {user_id: user_id, point: point});
+    window.location.replace("https://doraneko.tk/mini-game/");
     $('#cardd').empty();
     $('#currentIndex').text("50");
     return;
-  } 
+  }
   switch (help_level) {
     case 0: //>lesstion
-      _setCurrentPoint--;
+      if (!_usedHelp[0]) {
+        _setCurrentPoint--;
+        _usedHelp[0] = true;
+      }
       $(".lession_href").show();
       help_level++;
       UpdateMetaData();
       break;
     case 1:
-      _setCurrentPoint -= 2;
+      if (!_usedHelp[1]) {
+        _usedHelp[1] = true;
+        _setCurrentPoint -= 2;
+      }
       $(".kanji").show();
       help_level++;
       UpdateMetaData();
       break;
     case 2:
-      _setCurrentPoint--;
+      if (!_usedHelp[2]) {
+        _usedHelp[2] = true;
+        _setCurrentPoint--;
+      }
       $(".meaning").show();
       help_level++;
       UpdateMetaData();
       break;
     case 3:
-      _setCurrentPoint--;
+      _setCurrentPoint = 0;
       $(".true_answer").show();
-       help_level++;
+      help_level++;
       UpdateMetaData();
       break;
     case 4:
       _setCurrentPoint = 0;
       HindHelp();
       help_level = 0;
-      if(_setCurrentIndex <= 50) nextQuestion();
+      if (_setCurrentIndex <= 50) nextQuestion();
       _setCurrentIndex++;
-      _timeRemaing = 20;
+      _timeRemaing = 25;
       _setCurrentPoint = 5;
+      _usedHelp = [false, false, false];
       // _totalPoint += _setCurrentPoint;
       UpdateMetaData();
       break;
@@ -253,9 +336,47 @@ function nextQuestion() {
   window.dispatchEvent(e);
 }
 
+function startGame() {
+  get_ten_cards();
+}
+
+
+$("#btnStart").click(function () {
+  startGame();
+});
+
+function trueAnswer() {
+  _totalPoint += _setCurrentPoint;
+  _timeRemaing = 25;
+  _setCurrentPoint = 5;
+  _setCurrentIndex++;
+  HindHelp();
+  nextQuestion();
+  UpdateMetaData();
+}
+
+
 $(document).ready(function () {
   $('body').keydown(function (e) {
-    if (e.which == 78) nextQuestion();
-    if (e.which == 72) nextHelp();
+    switch (e.which) {
+      case 72: nextHelp(); break; //H
+      case 78: {
+        nextQuestion();
+        _setCurrentPoint = 5;
+        _timeRemaing = 20;
+        startCountDownTimer();
+        break; //N
+      }
+      case 84: {
+        trueAnswer();
+        break; //T
+      }
+      case 83: {
+        startGame();
+        startCountDownTimer();
+        break; //S
+      }
+      
+    }
   });
 })

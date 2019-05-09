@@ -1,0 +1,63 @@
+@layout('layouts.main')
+
+@section('title')
+{{title}}
+@endsection
+
+@section('home')
+<section class="banner-area relative">
+    <div class="container">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="about-content col-lg-12">
+                <h1 class="text-white">
+                    Mini Game Rank
+                </h1>
+                <p>Who to be hero?</p>
+                <div class="link-nav">
+                    <span class="box">
+                        <a href="/">Home </a>
+                        <i class="lnr lnr-arrow-right"></i>
+                        <a href="#">Rank</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rocket-img">
+        <img src="/img/rocket.png" alt="">
+    </div>
+</section>
+@endsection
+
+@section('content')
+<div class="whole-wrap">
+    <div class="container">
+        <div class="section-top-border">
+            <h3 class="mb-30">Board Ranks</h3>
+            <div class="progress-table-wrap">
+                <div class="progress-table">
+                    <div class="table-head">
+                        <div class="serial">#</div>
+                        <div class="country">Name</div>
+                        <div class="visit">Point</div>
+                        <div class="percentage">Percentages</div>
+                    </div>
+                    @each(board in boards)
+                    <div class="table-row">
+                        <div class="serial">#</div>
+                        <div class="country"> <img src="img/elements/f1.jpg" alt="flag">{{board.name}}</div>
+                        <div class="visit">{{board.point}}</div>
+                        <div class="percentage">
+                            <div class="progress">
+                                <div class="progress-bar color-1" role="progressbar" style="width: {{board.width}}%"
+                            aria-valuenow="{{board.width}}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                    @endeach
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

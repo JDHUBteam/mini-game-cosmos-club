@@ -16,4 +16,6 @@ Route.get('/mini-game', 'MiniGameController.index');
 Route.group(() => {
     Route.get('/cards/:id', 'MiniGame/CardController.show')
     Route.post('/cards/:id/get', 'MiniGame/CardController.getQuestion')
+    Route.post('/cards/:id/finish', 'MiniGame/CardController.rank')
+    Route.get('/cards/:id/rank', 'MiniGame/CardController.board').as('boardrank')
 }).prefix('mini-game')
